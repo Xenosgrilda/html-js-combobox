@@ -49,6 +49,15 @@ function filterList() {
     const messageItem = document.querySelector('#message-list-item');
     messageItem !== null ? messageItem.remove() : null;
 
+    // Second dblclick to close
+    if((event.type === 'dblclick') && (datalist.classList.contains('shown'))){
+
+        datalist.classList.remove('shown');
+        icon.classList.remove('rotate-180');
+
+        return false;
+    }
+
     if(!(datalist.classList.contains('shown'))){
         datalist.classList.add('shown');
     }
