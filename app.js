@@ -8,10 +8,10 @@ wrapperElements.forEach(wrapper => {
     const input = wrapper.querySelector('.nice-input');
 
     // Show dropdown
-    dropdownBtn.addEventListener('click', showDatalist);
+    dropdownBtn.addEventListener('click', filterList);
     input.addEventListener('keydown', () => {
         if(( (event.key === 'ArrowDown') || (event.key === 'Enter') )){
-            showDatalist(event);
+            filterList(event);
         } else if((event.key === 'ArrowUp')){
             closeDataList(null);
         }
@@ -23,7 +23,6 @@ wrapperElements.forEach(wrapper => {
     wrapper.querySelectorAll('ul > li').forEach(li => {
         li.addEventListener('click', getValueFromLi);
     });
-    // Navigation through arrows
 });
 
 window.addEventListener('click', closeDataList);
@@ -44,16 +43,6 @@ function findDatalistParent(element){
     }
 }
 
-function showDatalist(event){
-
-    const wrapper = findDatalistParent(event.currentTarget);
-    const datalist = wrapper.querySelector('.datalist');
-    const icon = wrapper.querySelector('.nice-input-dropdown-button > i');
-
-    datalist.classList.toggle('shown');
-    icon.classList.toggle('rotate-180');
-};
-
 function filterList(event) {
 
     let found = false;
@@ -63,6 +52,23 @@ function filterList(event) {
     const datalist = wrapper.querySelector('.datalist');
     const icon = wrapper.querySelector('.nice-input-dropdown-button > i');
     const input = wrapper.querySelector('.nice-input');
+
+    // Closing others DataList
+    wrapperElements.forEach(wrapperEl => {
+
+        if(wrapperEl !== wrapper){
+            const datalistAux = wrapperEl.querySelector('.datalist');
+            const iconAux = wrapperEl.querySelector('.nice-input-dropdown-button > i');
+
+            if((datalistAux.classList.contains('shown'))){
+                datalistAux.classList.remove('shown');
+            }
+            if((iconAux.classList.contains('rotate-180'))){
+                iconAux.classList.remove('rotate-180');
+            }
+        }
+
+    });
 
     // Removing message item
     const messageItem = wrapper.querySelector('#message-list-item');
@@ -104,6 +110,8 @@ function filterList(event) {
 
         datalist.querySelector('ul').appendChild(li);
     }
+
+    event.stopPropagation();
 }
 
 function getValueFromLi(event){
