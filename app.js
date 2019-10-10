@@ -14,6 +14,7 @@ wrapperElements.forEach(wrapper => {
             filterList(event);
         } else if((event.key === 'ArrowUp')){
             closeDataList(null);
+            event.preventDefault();
         }
     });
     // Filter input
@@ -51,6 +52,7 @@ function filterList(event) {
     const wrapper = findDatalistParent(event.currentTarget);
     const datalist = wrapper.querySelector('.datalist');
     const icon = wrapper.querySelector('.nice-input-dropdown-button > i');
+    const btn = wrapper.querySelector('.nice-input-dropdown-button');
     const input = wrapper.querySelector('.nice-input');
 
     // Closing others DataList
@@ -67,8 +69,14 @@ function filterList(event) {
                 iconAux.classList.remove('rotate-180');
             }
         }
-
     });
+
+    // // Checking if it's already open
+    if((datalist.classList.contains('shown')) && (event.currentTarget === btn)){
+
+        closeDataList(event, true);
+        return false;
+    }
 
     // Removing message item
     const messageItem = wrapper.querySelector('#message-list-item');
@@ -136,12 +144,17 @@ function getValueFromLi(event){
     };
 }
 
-function closeDataList(event, parent = null){
+function closeDataList(event, btnClicked = false){
 
-    parent !== null ? findDatalistParent(event.target) : null;
+    // Checking if click comes from input
+    if (event.target.classList){
+        if(event.target.classList.contains('nice-input')){
+            return false;
+        }
+    }
 
-    if (parent === null) {
-
+    if (!(findDatalistParent(event.target)) || (btnClicked)) {
+        
         wrapperElements.forEach(wrapper => {
             
             const datalist = wrapper.querySelector('.datalist');
@@ -154,6 +167,8 @@ function closeDataList(event, parent = null){
                 icon.classList.remove('rotate-180');
             }
         })
+
+        event.stopPropagation();
     } else { 
         return false;
     }
