@@ -28,7 +28,7 @@ h1 {
     position: relative;
 }
 
-.nice-input-container > input{
+.nice-input{
     width: 100%;
     border: 1px solid grey;
     padding: 5px;
@@ -70,6 +70,7 @@ button::-moz-focus-inner{
     position: absolute;
     visibility: hidden;
     opacity: 0;
+    z-index: 1;
     margin-top: 5px;
     background-color: white;
     box-shadow: 1px 5px 12px rgb(139, 139, 139);
