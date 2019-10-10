@@ -9,6 +9,13 @@ wrapperElements.forEach(wrapper => {
 
     // Show dropdown
     dropdownBtn.addEventListener('click', showDatalist);
+    input.addEventListener('keydown', () => {
+        if(( (event.key === 'ArrowDown') || (event.key === 'Enter') )){
+            showDatalist(event);
+        } else if((event.key === 'ArrowUp')){
+            closeDataList(null);
+        }
+    });
     // Filter input
     input.addEventListener('input', filterList);
     input.addEventListener('dblclick', filterList);
@@ -16,6 +23,7 @@ wrapperElements.forEach(wrapper => {
     wrapper.querySelectorAll('ul > li').forEach(li => {
         li.addEventListener('click', getValueFromLi);
     });
+    // Navigation through arrows
 });
 
 window.addEventListener('click', closeDataList);
@@ -120,9 +128,9 @@ function getValueFromLi(event){
     };
 }
 
-function closeDataList(){
+function closeDataList(event, parent = null){
 
-    const parent = findDatalistParent(event.target);
+    parent !== null ? findDatalistParent(event.target) : null;
 
     if (parent === null) {
 
